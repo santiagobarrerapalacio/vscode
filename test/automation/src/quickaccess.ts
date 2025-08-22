@@ -8,6 +8,7 @@ import { Code } from './code';
 import { QuickInput } from './quickinput';
 import { basename, isAbsolute } from 'path';
 import { Dialog } from './dialog';
+import { Quality } from './application';
 
 enum QuickAccessKind {
 	Files = 1,
@@ -23,8 +24,8 @@ export class QuickAccess {
 
 		// make sure the file quick access is not "polluted"
 		// with entries from the editor history when opening
-		if (this.code.version.minor < 104) {
-			// TODO: remove this when stable becomes 1.104
+		if (this.code.quality !== Quality.Dev && this.code.quality !== Quality.OSS) {
+			// TODO: change this after next insiders to check stable
 			await this.runCommand('workbench.action.clearEditorHistory');
 			await this.dialog.clickPrimaryButton();
 		} else {
